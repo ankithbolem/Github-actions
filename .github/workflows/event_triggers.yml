@@ -21,7 +21,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          if [ "${{ job.status }}" == "success" ]; then
+          if [ "${{ job.status }}" = "success" ]; then
             curl -X POST -H 'Content-type: application/json' \
               --data '{"text":"✅ Job is successful! 🎉"}' \
               $SLACK_WEBHOOK_URL
@@ -29,6 +29,7 @@ jobs:
             curl -X POST -H 'Content-type: application/json' \
               --data '{"text":"❌ Job failed with an error message!"}' \
               $SLACK_WEBHOOK_URL
+          fi
 
       - name: Print Final Message
         run: echo "hello this is my first pipeline"
