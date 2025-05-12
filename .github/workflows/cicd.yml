@@ -51,7 +51,7 @@ jobs:
         run: echo "Logging in to Docker..."
 
       - name: Build and Push Docker image
-        run: echo "Building and pushing Docker image..."
+        run: echo "Building and pushing Docker image"
 
   deploy:
     runs-on: ubuntu-latest
