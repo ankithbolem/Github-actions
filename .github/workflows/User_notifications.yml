@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Send Hydration Reminder to Team
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.STAY_HYDRATED }}
         run: |
           USERS="@john @jane @alex"  # Replace with actual Slack usernames
           MESSAGE="$USERS 💧 Time for a Water Break!\n\
