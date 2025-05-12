@@ -21,7 +21,7 @@ jobs:
       - name: Slack Notification for Build Result
         if: always()
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{  }}
         run: |
           if [ "${{ job.status }}" == "success" ]; then
             MESSAGE="✅ Build job succeeded!"
