@@ -1,1 +1,62 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build app
+        run: |
+          echo "Building the app..."
+          # Simulate success or failure with `exit 0` or `exit 1`
+          exit 0
+
+      - name: Slack Notification for Build Result
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            MESSAGE="✅ Build job succeeded!"
+          else
+            MESSAGE="❌ Build job failed!"
+          fi
+
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"$MESSAGE\"}" \
+            $SLACK_WEBHOOK_URL
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: echo "Running tests..."
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Login to Docker Hub
+        run: echo "Logging in to Docker..."
+
+      - name: Build and Push Docker image
+        run: echo "Building and pushing Docker image..."
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+      - name: Deploy
+        run: echo "Deploying to production..."
 
