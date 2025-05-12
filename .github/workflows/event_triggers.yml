@@ -9,11 +9,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello
+      - name: Simulate Job
+        run: |
+          echo "Running job"
+          # Simulate a successful or failing command
+          # For example, to simulate failure, use `exit 1` instead of `echo`
+          exit 0   # Change to `exit 1` to simulate failure
+
+      - name: Send Slack Notification
+        if: always()  # Ensure this step runs even if the job fails
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"Hello World"}' \
-          $SLACK_WEBHOOK_URL
-
+          if [ "${{ job.status }}" == "success" ]; then
+            curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"Job is successful! 🎉"}' \
+            $SLACK_WEBHOOK_URL
+          else
+            curl -X POST -H 'Content-type: application/json' \
+            --data '{"text":"Job failed with an error message! ❌"}' \
+            $SLACK_WEBHOOK_URL
+          fi
