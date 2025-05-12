@@ -15,5 +15,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy sample
-        uses: actions/deploy_sample@v4
+      - name: hello world
+        uses: actions/hello world@v4
